@@ -65,39 +65,48 @@ def load_data(filename):
 
         # Criando map da coluna month
         month_map = {
-            "January": 0,
-            "February": 1,
-            "March": 2,
-            "April": 3,
+            "Jan": 0,
+            "Feb": 1,
+            "Mar": 2,
+            "Apr": 3,
             "May": 4,
             "June": 5,
-            "July": 6,
-            "August": 7,
-            "September": 8,
-            "October": 9,
-            "November": 10,
-            "December": 11,
+            "Jul": 6,
+            "Aug": 7,
+            "Sep": 8,
+            "Oct": 9,
+            "Nov": 10,
+            "Dec": 11,
         }
+
+        # Criando listas de evidencias e labels
+        evidences = []
+        labels = []
 
         # Criando tupla que conterá os dados
         for row in reader:
             evidence = []
 
             # Inteiros
-            evidence.extend(
-                [int(cell) for cell in row[0, 2, 4, 11, 12, 13, 14, 15, 16]]
-            )
+            evidence.extend([int(row[cell]) for cell in [0, 2, 4, 11, 12, 13, 14]])
+
+            # Visitor_Type
+            evidence.append(1 if row[15] == "Returning_Visitor" else 0)
+
+            # Weekend
+            evidence.append(1 if row[16] == "TRUE" else 0)
 
             # Floats
-            evidence.extend(float(cell) for cell in row[1, 3, 5, 6, 7, 8, 9])
+            evidence.extend(float(row[cell]) for cell in [1, 3, 5, 6, 7, 8, 9])
 
             # Month Index
             evidence.append(month_map[row[10]])
 
-            # Criando tupla dos dados
-            data = (evidence, 1 if row[17] == "TRUE" else 0)
+            # Adicionando evidências e label nas listas
+            evidences.append(evidence)
+            labels.append(1 if row[17] == "TRUE" else 0)
 
-        return data
+        return (evidences, labels)
 
 
 def train_model(evidence, labels):
