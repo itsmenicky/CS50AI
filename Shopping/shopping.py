@@ -87,20 +87,40 @@ def load_data(filename):
         for row in reader:
             evidence = []
 
-            # Inteiros
-            evidence.extend([int(row[cell]) for cell in [0, 2, 4, 11, 12, 13, 14]])
-
-            # Visitor_Type
+            # Administrative (Int)
+            evidence.extend([int(row[0])])
+            # Administrative Duration (Float)
+            evidence.extend([float(row[1])])
+            # Informational (Int)
+            evidence.extend([int(row[2])])
+            # Informational Duration (Float)
+            evidence.extend([float(row[3])])
+            # Product Related (Int)
+            evidence.extend([int(row[4])])
+            # Product Related Duration (Float)
+            evidence.extend([float(row[5])])
+            # Bounce Rates (Float)
+            evidence.extend([float(row[6])])
+            # Exit Rates (Float)
+            evidence.extend([float(row[7])])
+            # Page Values (Float)
+            evidence.extend([float(row[8])])
+            # Special Day
+            evidence.extend([float(row[9])])
+            # Month (Int)
+            evidence.append(month_map[row[10]])
+            # Operating Systems (Int)
+            evidence.extend([int(row[11])])
+            # Browser (Int)
+            evidence.extend([int(row[12])])
+            # Region (Int)
+            evidence.extend([int(row[13])])
+            # Traffic Type (Int)
+            evidence.extend([int(row[14])])
+            # Visitor Type (Int)
             evidence.append(1 if row[15] == "Returning_Visitor" else 0)
-
             # Weekend
             evidence.append(1 if row[16] == "TRUE" else 0)
-
-            # Floats
-            evidence.extend(float(row[cell]) for cell in [1, 3, 5, 6, 7, 8, 9])
-
-            # Month Index
-            evidence.append(month_map[row[10]])
 
             # Adicionando evidências e label nas listas
             evidences.append(evidence)
