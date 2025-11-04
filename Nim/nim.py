@@ -140,14 +140,14 @@ class NimAI:
         `state`, return 0.
         """
         # capturando todas as ações possíveis para o estado
-        actions = [action for (s, action) in self.q if s == state]
+        actions = Nim.available_actions(state)
 
         # checando se há ações válidas para o estado
         if not actions:
             return 0
         else:
             # capturando o maior q_value das ações possíveis
-            max_q_value = max([self.q.get((state, action), 0) for action in actions])
+            max_q_value = max([self.q.get((tuple(state), tuple(action)), 0) for action in actions])
             return max_q_value
 
     def choose_action(self, state, epsilon=True):
